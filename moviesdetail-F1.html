@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F1® | Chi tiết phim | Rạp SGHL</title>
+  <style>
+    :root {
+      --màu-chính: #e74c3c;
+      --màu-nền: #000;
+      --màu-chữ: #fff;
+      --màu-phụ: #fff;
+      --màu-viền: #444;
+      --đổ-bóng: 0 4px 12px rgba(0,0,0,0.3);
+      --font-chính: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+    }
+    
+    body {
+      font-family: var(--font-chính);
+      background-color: var(--màu-nền);
+      color: var(--màu-chữ);
+      line-height: 1.6;
+    }
+    
+    /* Phần đầu trang - Đã sửa */
+    .phần-đầu {
+      background-color: #222;
+      padding: 10px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.5);
+      border-bottom: none;
+    }
+    
+    .container {
+      display: flex;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      height: 60px;
+      transition: transform 0.3s ease;
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Phần chi tiết phim */
+    .chi-tiết-phim {
+      max-width: 1100px;
+      margin: 20px auto;
+      background-color: #f1eded;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--đổ-bóng);
+      border: 1px solid var(--màu-viền);
+    }
+    
+    .nội-dung {
+      display: flex;
+      padding: 25px;
+      gap: 25px;
+    }
+    
+    @media (max-width: 768px) {
+      .nội-dung {
+        flex-direction: column;
+        padding: 15px;
+      }
+    }
+    
+    .poster-phim {
+      width: 280px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: var(--đổ-bóng);
+      border: 1px solid var(--màu-viền);
+    }
+    
+    @media (max-width: 768px) {
+      .poster-phim {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+    }
+    
+    .thông-tin-phim {
+      flex: 1;
+    }
+    
+    .tên-phim {
+      color: var(--màu-chính);
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    
+    .thông-số {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    
+    .thông-số-item {
+      background-color: #333;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--màu-chữ);
+    }
+    
+    .mô-tả {
+      margin-bottom: 20px;
+      color: #000;
+    }
+    
+    /* Phần trailer */
+    .phần-trailer {
+      margin-top: 25px;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    
+    .tiêu-đề-trailer {
+      margin-bottom: 12px;
+      color: var(--màu-chính);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .video-trailer {
+      width: 100%;
+      height: 380px;
+      border-radius: 6px;
+      border: none;
+      background-color: #000;
+    }
+    
+    @media (max-width: 768px) {
+      .video-trailer {
+        height: 220px;
+      }
+    }
+    
+    /* Nút tương tác */
+    .nhóm-nút {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .nút {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    .nút-chính {
+      background-color: var(--màu-chính);
+      color: white;
+    }
+    
+    .nút-chính:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.2s ease;
+}
+.close-btn:hover {
+  transform: scale(1.2);
+  color: #e50914;
+}
+    
+    /* Thông tin bổ sung */
+    .thông-tin-bổ-sung {
+      margin-top: 18px;
+      padding: 12px;
+      background-color: #fff;
+      border-radius: 8px;
+      border-left: 4px solid var(--màu-phụ);
+    }
+    
+    .thông-tin-bổ-sung p {
+      margin-bottom: 6px;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <!-- Phần đầu trang -->
+  <header class="phần-đầu">
+    <div class="container">
+      <a href="index.html">
+        <img src="image/logo SGHL.jpg" alt="Logo Rạp SGHL" class="logo">
+      </a>
+    </div>
+  </header>
+
+  <!-- Nút đóng -->
+  <div class="close-btn" onclick="window.location.href='movies.html'">✖</div>
+
+  <!-- Phần chi tiết phim -->
+  <main class="chi-tiết-phim">
+    <div class="nội-dung">
+      <img src="image/f1.jpg" alt="Poster phim F1®" class="poster-phim">
+
+      <div class="thông-tin-phim">
+        <h1 class="tên-phim">F1®</h1>
+        
+        <div class="thông-số">
+          <span class="thông-số-item">Hành động</span>
+          <span class="thông-số-item">Tâm lý</span>
+          <span class="thông-số-item">156 phút</span>
+          <span class="thông-số-item">T16 – Trên 16 tuổi</span>
+        </div>
+        
+        <div class="mô-tả">
+          <p><strong>Khởi chiếu:</strong> 27/06/2025</p>
+          <p><strong>Ngôn ngữ:</strong> Tiếng Anh (Phụ đề Việt & Hàn)</p>
+          <p><strong>Đạo diễn:</strong> Joseph Kosinski</p>
+          <p><strong>Diễn viên:</strong> Brad Pitt, Simone Ashley, Javier Bardem, ...</p>
+        </div>
+        
+        <div class="thông-tin-bổ-sung">
+          <p><strong>Tóm tắt:</strong> F1® đưa khán giả vào cuộc đua nghẹt thở của làng Công thức 1, nơi một tay đua trẻ phải vượt qua chấn thương, sự cạnh tranh khốc liệt và những toan tính đằng sau hậu trường để chứng minh bản lĩnh trên đường đua đầy thử thách.</p>
+          <p><strong>Đánh giá:</strong> ★★★★☆ 4.0/5 (15,000 lượt)</p>
+        </div>
+        
+        <div class="nhóm-nút">
+          <a href="booking-F1.html" class="nút nút-chính">🎫 Đặt vé ngay</a>
+        </div>
+        
+        <div class="phần-trailer">
+          <h2 class="tiêu-đề-trailer">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 16.5L16 12L10 7.5V16.5ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="#e74c3c"/>
+            </svg>
+            TRAILER PHIM
+          </h2>
+           <iframe class="video-trailer" src="https://www.youtube.com/embed/YwB1w3V5V3I?si=t2xJE5y4UbXK1e0g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Thêm hiệu ứng khi cuộn trang
+    window.addEventListener('scroll', function() {
+      const header = document.querySelector('.phần-đầu');
+      if (window.scrollY > 10) {
+        header.style.boxShadow = '0 4px 15px rgba(0,0,0,0.6)';
+      } else {
+        header.style.boxShadow = '0 2px 15px rgba(0,0,0,0.5)';
+      }
+    });
+  </script>
+</body>
+</html>

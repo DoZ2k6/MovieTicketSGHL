@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Đặt vé xem phim trực tuyến - Cinema SGHL - Rạp chiếu phim chất lượng hàng đầu Việt Nam" />
+  <title>Trang chủ - MovieTicketSGHL</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary-color: rgba(139, 0, 0, 1.0); /* Netflix red */
+      --primary-dark: #b2070f; /* Darker red */
+      --primary-light: #e8f0fe;
+      --dark-bg: #202124;
+      --darker-bg: #171717;
+      --text-light: #ffffff;
+      --text-gray: #bdc1c6;
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f5f5f5;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      transition: var(--transition);
+    }
+
+    header.scrolled {
+      padding: 10px 0;
+      background-color: rgba(23, 23, 23, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-right: 32px;
+    }
+
+    .logo img {
+      height: 60px;
+      transition: transform 0.3s;
+    }
+
+    .logo:hover img {
+      transform: scale(1.05);
+    }
+
+    nav {
+      flex: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 0;
+      position: relative;
+      transition: var(--transition);
+      display: inline-block;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-bg) 100%);
+      color: var(--text-light);
+      padding: 100px 0 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('image/noise.png') repeat;
+      opacity: 0.03;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h2 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+      animation: fadeInDown 1s both;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 1s both 0.3s;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-block;
+      background-color: var(--text-light);
+      color: var(--primary-color);
+      font-weight: bold;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+      padding: 14px 36px;
+      border: none;
+      transition: var(--transition);
+      cursor: pointer;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 1s both 0.6s;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-color);
+      color: var(--text-light);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(229, 9, 20, 0.6);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: var(--text-light);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+    }
+
+    /* Slider Styles */
+    .movie-slider {
+      max-width: 900px;
+      margin: 50px auto 0;
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      transform: perspective(1000px) rotateX(5deg);
+      transition: var(--transition);
+      animation: zoomIn 1s both 0.9s;
+    }
+
+    .movie-slider:hover {
+      transform: perspective(1000px) rotateX(0deg) translateY(-10px);
+      box-shadow: 0 15px 50px rgba(229, 9, 20, 0.3);
+    }
+
+    .slider-image {
+      width: 100%;
+      display: block;
+      transition: opacity 0.7s ease-in-out;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+
+    .slider-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(0deg, rgba(23, 23, 23, 0.9) 60%, rgba(23, 23, 23, 0) 100%);
+      padding: 40px 40px 25px;
+      text-align: left;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .movie-slider:hover .slider-info {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .slider-title {
+      margin: 0 0 12px 0;
+      font-size: 2.2rem;
+      color: var(--text-light);
+      text-shadow: 0 2px 8px #000;
+      transform: translateX(-20px);
+      transition: var(--transition);
+      transition-delay: 0.2s;
+    }
+
+    .slider-desc {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      text-shadow: 0 2px 8px #000;
+      transform: translateX(-20px);
+      transition: var(--transition);
+      transition-delay: 0.3s;
+    }
+
+    .movie-slider:hover .slider-title,
+    .movie-slider:hover .slider-desc {
+      transform: translateX(0);
+    }
+
+    .slider-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: var(--text-light);
+      border: none;
+      font-size: 2.2rem;
+      padding: 12px 18px;
+      cursor: pointer;
+      z-index: 2;
+      transition: var(--transition);
+      opacity: 0;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .movie-slider:hover .slider-nav {
+      opacity: 1;
+    }
+
+    .slider-nav:hover {
+      background: rgba(229, 9, 20, 0.8);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .slider-prev {
+      left: 20px;
+    }
+
+    .slider-next {
+      right: 20px;
+    }
+
+    .slider-dots {
+      position: absolute;
+      bottom: 15px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: var(--transition);
+      border: 2px solid transparent;
+    }
+
+    .dot:hover {
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .dot.active {
+      background: var(--primary-color);
+      transform: scale(1.2);
+      border-color: white;
+    }
+
+    /* Features Section */
+    .features {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-bg) 100%);
+      color: var(--text-light);
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .features::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('image/dots-pattern.png') repeat;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      animation: fadeIn 1s both;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: rgba(240, 240, 240, 0.9);
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+      animation: fadeIn 1s both 0.3s;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      margin-top: 60px;
+    }
+
+    .feature-card {
+      text-align: center;
+      padding: 40px 30px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform: translateY(50px);
+      opacity: 0;
+      animation: fadeInUp 1s forwards;
+    }
+
+    .feature-card:nth-child(1) {
+      animation-delay: 0.3s;
+    }
+    .feature-card:nth-child(2) {
+      animation-delay: 0.6s;
+    }
+    .feature-card:nth-child(3) {
+      animation-delay: 0.9s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 3.5em;
+      margin-bottom: 25px;
+      color: var(--primary-color);
+      transition: var(--transition);
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: rotateY(180deg) scale(1.2);
+    }
+
+    .feature-title {
+      font-size: 1.6em;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: var(--text-light);
+    }
+
+    .feature-desc {
+      color: rgba(240, 240, 240, 0.9);
+      line-height: 1.6;
+      font-size: 1.05rem;
+    }
+
+    /* Footer Styles */
+    footer {
+      background: var(--darker-bg);
+      color: var(--text-light);
+      padding-top: 60px;
+      margin-top: 40px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      padding: 0 20px;
+    }
+
+    .footer-logo img {
+      height: 40px;
+      margin-bottom: 15px;
+    }
+
+    .footer-logo h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.3rem;
+    }
+
+    .footer-logo p {
+      color: var(--text-gray);
+      margin-bottom: 15px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .copyright {
+      text-align: center;
+      color: var(--text-gray);
+      margin-top: 60px;
+      padding: 20px 0;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  .footer-section h4 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-section h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--primary-color);
+    }
+
+    .footer-section p {
+      margin-bottom: 10px;
+      color: var(--text-gray);
+    }
+
+    .footer-section a {
+      color: var(--text-gray);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-section a:hover {
+      color: var(--primary-color);
+    }
+     .newsletter-form {
+      display: flex;
+      margin-top: 20px;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 30px 0 0 30px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-light);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .newsletter-input:focus {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .newsletter-btn {
+      width: 50px;
+      border: none;
+      border-radius: 0 30px 30px 0;
+      background: var(--primary-color);
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1.2rem;
+    }
+
+    .newsletter-btn:hover {
+      background: var(--primary-dark);
+    }
+    /* Floating Elements */
+    .floating-elements {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .floating-element {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-50px) rotate(180deg);
+      }
+      100% {
+        transform: translateY(0) rotate(360deg);
+      }
+    }
+
+    /* Scroll Reveal Animation */
+    .reveal {
+      position: relative;
+      transform: translateY(50px);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .reveal.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .hero h2 {
+        font-size: 2.4rem;
+      }
+      
+      .section-title {
+        font-size: 2.4rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .logo {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+
+      .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .hero {
+        padding: 80px 0 40px;
+      }
+
+      .hero h2 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .section-subtitle {
+        font-size: 1.1rem;
+      }
+
+      .slider-title {
+        font-size: 1.6rem;
+      }
+
+      .slider-desc {
+        font-size: 0.95rem;
+      }
+
+      .feature-card {
+        padding: 30px 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero h2 {
+        font-size: 1.8rem;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-elements">
+    <div class="floating-element" style="width: 20px; height: 20px; top: 20%; left: 10%;"></div>
+    <div class="floating-element" style="width: 30px; height: 30px; top: 60%; left: 80%;"></div>
+    <div class="floating-element" style="width: 15px; height: 15px; top: 80%; left: 15%;"></div>
+    <div class="floating-element" style="width: 25px; height: 25px; top: 30%; left: 65%;"></div>
+  </div>
+
+  <header id="mainHeader">
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <img src="image/logo SGHL.jpg" alt="SGHL Logo">
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+          <li><a href="login.html" class="nav-link">Phim</a></li>
+          <li><a href="login.html" class="nav-link">Ưu đãi</a></li>
+          <li><a href="login.html" class="nav-link">Liên hệ</a></li>
+          <li><a href="login.html" class="nav-link">Đăng nhập/Đăng ký</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h2 class="animate__animated animate__fadeInDown">🎞️ Top phim nổi bật tháng 7</h2>
+      <p class="animate__animated animate__fadeInUp">Đặt vé ngay để không bỏ lỡ suất chiếu!</p>
+      <a href="login.html" class="btn btn-primary animate__animated animate__fadeIn">Khám phá ngay</a>
+
+      <!-- Banner phim hot dạng slider -->
+      <div class="movie-slider">
+        <img id="sliderImage" class="slider-image" src="image/bannerjurassic.jpg" alt="Phim hot" loading="lazy">
+        <div class="slider-info">
+          <h3 id="sliderTitle" class="slider-title">Thế Giới Khủng Long: Tái Sinh</h3>
+          <div id="sliderDesc" class="slider-desc">Cuộc phiêu lưu mới của loài khủng long và con người, bom tấn hè 2025!</div>
+        </div>
+        <button class="slider-nav slider-prev" onclick="prevSlide()">&#10094;</button>
+        <button class="slider-nav slider-next" onclick="nextSlide()">&#10095;</button>
+        <div id="sliderDots" class="slider-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title reveal">Tại sao chọn Cinema SGHL?</h2>
+      <p class="section-subtitle reveal">Trải nghiệm xem phim đẳng cấp thế giới</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📽️</div>
+          <h3 class="feature-title">Công nghệ hiện đại</h3>
+          <p class="feature-desc">Hệ thống âm thanh Dolby Atmos và màn hình 4K Ultra HD mang đến trải nghiệm điện ảnh chất lượng cao.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎫</div>
+          <h3 class="feature-title">Đặt vé dễ dàng</h3>
+          <p class="feature-desc">Đặt vé online nhanh chóng, chọn ghế theo ý thích và thanh toán tiện lợi với nhiều phương thức.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🍿</div>
+          <h3 class="feature-title">Dịch vụ hoàn hảo</h3>
+          <p class="feature-desc">Bắp rang, nước giải khát và nhiều món ăn nhẹ thơm ngon, phục vụ tận tâm và chuyên nghiệp.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+   <footer>
+    <div class="footer-container">
+      <div class="footer-section footer-logo">
+        <img src="image/logo SGHL.jpg" alt="Cinema SGHL">
+        <h3>Cinema SGHL</h3>
+        <p>Hệ thống rạp chiếu phim hiện đại với chất lượng hàng đầu Việt Nam.</p>
+        <div class="social-links">
+          <a href="#"><img src="image/fb.png" alt="Facebook"></a>
+          <a href="#"><img src="image/tw.png" alt="Twitter"></a>
+          <a href="#"><img src="image/ig.png" alt="Instagram"></a>
+          <a href="#"><img src="image/ytb.png" alt="YouTube"></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Liên hệ</h4>
+        <p><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận 1, TP.HCM</p>
+        <p><i class="fas fa-phone"></i> 1900 123456</p>
+        <p><i class="fas fa-envelope"></i> info@cinemasghl.vn</p>
+        <p><i class="fas fa-globe"></i> www.cinemashgl.vn</p>
+      </div>
+      <div class="footer-section">
+        <h4>Giờ mở cửa</h4>
+        <p><i class="far fa-clock"></i> Thứ 2 - Thứ 6: 8:00 - 23:00</p>
+        <p><i class="far fa-clock"></i> Thứ 7: 8:00 - 24:00</p>
+        <p><i class="far fa-clock"></i> Chủ nhật: 8:00 - 22:00</p>
+      </div>
+      <div class="footer-section">
+        <h4>Đăng ký nhận tin</h4>
+        <p>Nhận thông tin khuyến mãi và phim mới nhất từ chúng tôi.</p>
+        <form class="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="Email của bạn" required>
+          <button type="submit" class="newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2025 Cinema SGHL. Bản quyền thuộc về Cinema SGHL.
+    </div>
+  </footer>
+
+  <script>
+    // Banner phim hot slider
+    const movies = [
+      {
+        img: "image/bannerjurassic.jpg",
+        title: "Thế Giới Khủng Long: Tái Sinh",
+        desc: "Thế Giới Khủng Long: Tái Sinh lấy bối cảnh 5 năm sau phần phim Thế Giới Khủng Long: Lãnh Địa, môi trường Trái đất đã chứng tỏ phần lớn là không phù hợp với khủng long. Nhiều loài thằn lằn tiền sử được tái sinh đã chết. Những con chưa chết đã rút lui đến một vùng nhiệt đới hẻo lánh gần phòng thí nghiệm."
+      },
+      {
+        img: "image/bannerutlan.jpg",
+        title: "Út Lan: Oán Linh Giữ Của",
+        desc: "Sau sự ra đi của cha, Lan (Phương Thanh) về một vùng quê và ở đợ cho nhà ông Danh (Mạc Văn Khoa) - một người đàn ông góa vợ, không con cái. Ngay sau khi bước chân vào căn nhà, Lan phải đối mặt với hàng loạt hiện tượng kỳ dị và những cái chết bí ẩn liên tục xảy ra."
+      },
+      {
+        img: "image/bannerf1.jpg",
+        title: "F1 - Brad Pitt",
+        desc: "F1 - Brad Pitt là bộ phim hành động thể thao xoay quanh cuộc đua xe F1, với sự tham gia của Brad Pitt trong vai một tay đua huyền thoại trở lại đường đua sau nhiều năm vắng bóng. Bộ phim hứa hẹn mang đến những pha rượt đuổi nghẹt thở."
+      },
+      {
+        img: "image/bannerbklr.jpg",
+        title: "Bí Kíp Luyện Rồng",
+        desc: "Câu chuyện về một chàng trai trẻ với ước mơ trở thành thợ săn rồng, nhưng định mệnh lại đưa đẩy anh đến tình bạn bất ngờ với một chú rồng."
+      }
+    ];
+
+    let currentSlide = 0;
+    let slideInterval;
+    const sliderImage = document.getElementById('sliderImage');
+    const sliderTitle = document.getElementById('sliderTitle');
+    const sliderDesc = document.getElementById('sliderDesc');
+    const sliderDots = document.getElementById('sliderDots');
+
+    // Initialize slider
+    function initSlider() {
+      updateSlider();
+      createDots();
+      startAutoSlide();
+      
+      // Pause auto slide on hover
+      const slider = document.querySelector('.movie-slider');
+      slider.addEventListener('mouseenter', pauseAutoSlide);
+      slider.addEventListener('mouseleave', startAutoSlide);
+    }
+
+    // Update slider content
+    function updateSlider() {
+      sliderImage.style.opacity = 0.3;
+      setTimeout(() => {
+        sliderImage.src = movies[currentSlide].img;
+        sliderTitle.textContent = movies[currentSlide].title;
+        sliderDesc.textContent = movies[currentSlide].desc;
+        sliderImage.style.opacity = 1;
+      }, 200);
+      updateDots();
+    }
+
+    // Create navigation dots
+    function createDots() {
+      sliderDots.innerHTML = '';
+      movies.forEach((_, index) => {
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        if (index === currentSlide) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        sliderDots.appendChild(dot);
+      });
+    }
+
+    // Update active dot
+    function updateDots() {
+      const dots = document.querySelectorAll('.dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    // Go to specific slide
+    function goToSlide(index) {
+      currentSlide = (index + movies.length) % movies.length;
+      updateSlider();
+    }
+
+    // Next slide
+    function nextSlide() {
+      goToSlide(currentSlide + 1);
+    }
+
+    // Previous slide
+    function prevSlide() {
+      goToSlide(currentSlide - 1);
+    }
+
+    // Auto slide
+    function startAutoSlide() {
+      clearInterval(slideInterval);
+      slideInterval = setInterval(nextSlide, 5000);
+    }
+
+    function pauseAutoSlide() {
+      clearInterval(slideInterval);
+    }
+
+    // Initialize the slider
+    document.addEventListener('DOMContentLoaded', initSlider);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Header scroll effect
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Scroll reveal animation
+    const scrollReveal = () => {
+      const reveals = document.querySelectorAll('.reveal');
+      
+      reveals.forEach(reveal => {
+        const revealTop = reveal.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (revealTop < windowHeight - 100) {
+          reveal.classList.add('active');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', scrollReveal);
+    window.addEventListener('load', scrollReveal);
+
+    // Floating elements animation
+    const floatingElements = document.querySelectorAll('.floating-element');
+    floatingElements.forEach((el, index) => {
+      // Randomize animation duration and delay
+      const duration = 15 + Math.random() * 15;
+      const delay = Math.random() * 5;
+      el.style.animation = `float ${duration}s ${delay}s infinite linear`;
+      
+      // Random size and position
+      const size = 10 + Math.random() * 30;
+      el.style.width = `${size}px`;
+      el.style.height = `${size}px`;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ưu đãi - MovieTicketSGHL</title>
+  <style>
+    :root {
+      --primary-color: #e50914;
+      --primary-dark: #b1060f;
+      --dark-bg: #222;
+      --darker-bg: #111;
+      --text-light: #fff;
+      --text-gray: #bbb;
+      --light-bg: #f5f5f5;
+      --discount-color: #ff5722;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: var(--light-bg);
+      color: #333;
+    }
+
+        /* Header Styles */
+    header {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      transition: var(--transition);
+    }
+
+    header.scrolled {
+      padding: 10px 0;
+      background-color: rgba(23, 23, 23, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-right: 32px;
+    }
+
+    .logo img {
+      height: 60px;
+      transition: transform 0.3s;
+    }
+
+    .logo:hover img {
+      transform: scale(1.05);
+    }
+
+    nav {
+      flex: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 0;
+      position: relative;
+      transition: var(--transition);
+      display: inline-block;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+
+    /* Main Content */
+    .voucher-section {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      color: var(--dark-bg);
+      text-align: center;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: var(--primary-color);
+      margin: 10px auto 0;
+    }
+
+    /* Voucher Grid */
+    .voucher-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    /* Voucher Card */
+    .voucher-card {
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .voucher-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .voucher-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      padding: 15px;
+      text-align: center;
+      position: relative;
+    }
+
+    .voucher-discount {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 10px 0;
+      color: var(--text-light);
+    }
+
+    .voucher-title {
+      font-size: 1.3rem;
+      margin-bottom: 5px;
+    }
+
+    .voucher-code {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .voucher-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .voucher-desc {
+      margin-bottom: 15px;
+      flex: 1;
+    }
+
+    .voucher-terms {
+      font-size: 0.8rem;
+      color: #777;
+      margin-top: 10px;
+    }
+
+    .voucher-btn {
+      display: block;
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 15px;
+      transition: background-color 0.3s;
+    }
+
+    .voucher-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .expiry-date {
+      background-color: #f8f8f8;
+      padding: 10px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
+      border-top: 1px dashed #ddd;
+    }
+
+    /* Special Offer Banner */
+    .special-offer {
+      background: linear-gradient(135deg, #ff8a00, #ff5722);
+      color: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin: 40px 0;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+    }
+
+    .special-offer-content {
+      flex: 1;
+    }
+
+    .special-offer h3 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .special-offer .voucher-discount {
+      font-size: 3rem;
+      color: #fff;
+    }
+
+    .special-offer-img {
+      width: 200px;
+      margin-left: 30px;
+    }
+
+        /* Footer Styles */
+    footer {
+      background: var(--darker-bg);
+      color: var(--text-light);
+      padding-top: 60px;
+      margin-top: 40px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      padding: 0 20px;
+    }
+
+    .footer-logo img {
+      height: 40px;
+      margin-bottom: 15px;
+    }
+
+    .footer-logo h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.3rem;
+    }
+
+    .footer-logo p {
+      color: var(--text-gray);
+      margin-bottom: 15px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .copyright {
+      text-align: center;
+      color: var(--text-gray);
+      margin-top: 60px;
+      padding: 20px 0;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  .footer-section h4 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-section h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--primary-color);
+    }
+
+    .footer-section p {
+      margin-bottom: 10px;
+      color: var(--text-gray);
+    }
+
+    .footer-section a {
+      color: var(--text-gray);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-section a:hover {
+      color: var(--primary-color);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .movie-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 15px;
+      }
+
+      .special-offer {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .special-offer-img {
+        margin: 20px 0 0 0;
+        width: 150px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .voucher-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+      }
+    }
+    /* User Menu */
+    .user-menu {
+      position: relative;
+      margin-left: 32px;
+    }
+
+    .user-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      background: #eee;
+      color: #222;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .user-name {
+      margin-left: 8px;
+    }
+
+    .dropdown-user {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 44px;
+      background: #333;
+      color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+      min-width: 260px;
+      z-index: 10;
+      padding: 18px;
+    }
+
+    .dropdown-user.show {
+      display: block;
+    }
+
+    .user-display-name {
+      font-weight: bold;
+      color: #00bfff;
+      font-size: 1.1rem;
+    }
+
+    .user-email {
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+
+    .dropdown-divider {
+      border-top: 1px solid #444;
+      margin: 10px 0;
+    }
+
+    .dropdown-link {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 0;
+      transition: color 0.3s;
+    }
+
+    .dropdown-link:hover {
+      color: var(--primary-color);
+    }
+
+    .logout-link {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      color: #ff5252;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <img src="image/logo SGHL.jpg" alt="SGHL Logo">
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Trang chủ</a></li>
+          <li><a href="movies.html" >Phim</a></li>
+          <li><a href="voucher.html"style="color: var(--primary-color);">Ưu đãi</a></li>
+          
+          <li><a href="contact.html">Liên hệ</a></li>
+          <li class="user-menu" id="userMenu">
+            <div class="user-toggle" onclick="toggleUserDropdown()">
+              <div class="user-avatar">K</div>
+              <span class="user-name">Lưu Gia K</span>
+            </div>
+            <div id="dropdownUser" class="dropdown-user">
+              <div class="user-display-name">Lưu Gia K</div>
+              <div class="user-email">LuuGiaK@gmail.com</div>
+              <div class="dropdown-divider"></div>
+              <a href="tickets.html" class="dropdown-link">Vé của tôi</a>
+              <div class="dropdown-divider"></div>
+              <a href="login.html" class="logout-link">Đăng xuất &rarr;</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="voucher-section">
+      <h2 class="section-title">ƯU ĐÃI THÁNG 7</h2>
+      
+      <div class="special-offer">
+        <div class="special-offer-content">
+          <h3>KHUYẾN MÃI ĐẶC BIỆT</h3>
+          <div class="voucher-discount">50%</div>
+          <p>Giảm ngay 50% cho tất cả các suất chiếu từ thứ 2 đến thứ 5 hàng tuần</p>
+          <div class="voucher-code">Mã: SGHL50</div>
+        </div>
+        <img src="image/ticket.png" alt="Special Offer" class="special-offer-img">
+      </div>
+
+      <div class="voucher-grid">
+        <!-- Voucher 1 -->
+        <div class="voucher-card">
+          <div class="voucher-header">
+            <div class="voucher-title">COMBO GIA ĐÌNH</div>
+            <div class="voucher-discount">30%</div>
+            <div class="voucher-code">Mã: FAMILY30</div>
+          </div>
+          <div class="voucher-body">
+            <div class="voucher-desc">
+              <p>Giảm 30% khi mua combo cho gia đình từ 3 vé trở lên. Áp dụng cho tất cả các ngày trong tuần.</p>
+            </div>
+            <div class="voucher-terms">
+              <p>Áp dụng từ thứ 2 đến chủ nhật. Không áp dụng với các khuyến mãi khác.</p>
+            </div>
+          </div>
+          <div class="expiry-date">HSD: 31/07/2025</div>
+        </div>
+
+        <!-- Voucher 2 -->
+        <div class="voucher-card">
+          <div class="voucher-header" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);">
+            <div class="voucher-title">SINH NHẬT THÀNH VIÊN</div>
+            <div class="voucher-discount">MIỄN PHÍ</div>
+            <div class="voucher-code">Mã: BIRTHDAY</div>
+          </div>
+          <div class="voucher-body">
+            <div class="voucher-desc">
+              <p>Tặng 01 vé xem phim miễn phí trong tháng sinh nhật cho thành viên VIP. Áp dụng cho tất cả các phim.</p>
+            </div>
+            <div class="voucher-terms">
+              <p>Áp dụng khi xuất trình CMND/CCCD trong tháng sinh nhật. Mỗi thành viên được dùng 01 lần.</p>
+            </div>
+          </div>
+          <div class="expiry-date">HSD: 31/12/2025</div>
+        </div>
+
+        <!-- Voucher 3 -->
+        <div class="voucher-card">
+          <div class="voucher-header" style="background: linear-gradient(135deg, #2196F3, #0D47A1);">
+            <div class="voucher-title">ƯU ĐÃI ĐẦU TUẦN</div>
+            <div class="voucher-discount">40%</div>
+            <div class="voucher-code">Mã: MONDAY40</div>
+          </div>
+          <div class="voucher-body">
+            <div class="voucher-desc">
+              <p>Giảm 40% tất cả các suất chiếu sáng thứ 2 hàng tuần. Áp dụng cho mọi loại vé.</p>
+            </div>
+            <div class="voucher-terms">
+              <p>Chỉ áp dụng cho các suất chiếu trước 12h trưa thứ 2 hàng tuần.</p>
+            </div>
+          </div>
+          <div class="expiry-date">HSD: 31/08/2025</div>
+        </div>
+
+        <!-- Voucher 4 -->
+        <div class="voucher-card">
+          <div class="voucher-header" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A);">
+            <div class="voucher-title">COMBO ĐÔI</div>
+            <div class="voucher-discount">25%</div>
+            <div class="voucher-code">Mã: COUPLE25</div>
+          </div>
+          <div class="voucher-body">
+            <div class="voucher-desc">
+              <p>Giảm 25% khi mua 02 vé + 01 combo bắp nước. Áp dụng tất cả các ngày trong tuần.</p>
+            </div>
+            <div class="voucher-terms">
+              <p>Áp dụng khi mua combo đôi qua ứng dụng hoặc website.</p>
+            </div>
+          </div>
+          <div class="expiry-date">HSD: 31/07/2025</div>
+        </div>
+
+        <!-- Voucher 5 -->
+        <div class="voucher-card">
+          <div class="voucher-header" style="background: linear-gradient(135deg, #FF9800, #F57C00);">
+            <div class="voucher-title">HỌC SINH/SINH VIÊN</div>
+            <div class="voucher-discount">20%</div>
+            <div class="voucher-code">Mã: STUDENT20</div>
+          </div>
+          <div class="voucher-body">
+            <div class="voucher-desc">
+              <p>Giảm 20% cho học sinh, sinh viên khi xuất trình thẻ hợp lệ. Áp dụng mọi suất chiếu.</p>
+            </div>
+            <div class="voucher-terms">
+              <p>Áp dụng khi mua trực tiếp tại quầy, xuất trình thẻ học sinh/sinh viên còn hiệu lực.</p>
+            </div>
+          </div>
+          <div class="expiry-date">HSD: 31/12/2025</div>
+        </div>
+
+        <!-- Voucher 6 -->
+        <div class="voucher-card">
+          <div class="voucher-header" style="background: linear-gradient(135deg, #607D8B, #455A64);">
+            <div class="voucher-title">THÀNH VIÊN VIP</div>
+            <div class="voucher-discount">15%</div>
+            <div class="voucher-code">Mã: VIP15</div>
+          </div>
+          <div class="voucher-body">
+            <div class="voucher-desc">
+              <p>Giảm thêm 15% mọi đơn hàng cho thành viên VIP. Tích điểm 2x cho mọi giao dịch.</p>
+            </div>
+            <div class="voucher-terms">
+              <p>Áp dụng thường trực cho thành viên VIP. Không áp dụng đồng thời với các ưu đãi khác.</p>
+            </div>
+          </div>
+          <div class="expiry-date">HSD: VĨNH VIỄN</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section footer-logo">
+        <img src="image/logo SGHL.jpg" alt="Cinema SGHL">
+        <h3>Cinema SGHL</h3>
+        <p>Hệ thống rạp chiếu phim hiện đại với chất lượng hàng đầu Việt Nam.</p>
+        <div class="social-links">
+          <a href="#"><img src="image/fb.png" alt="Facebook"></a>
+          <a href="#"><img src="image/tw.png" alt="Twitter"></a>
+          <a href="#"><img src="image/ig.png" alt="Instagram"></a>
+          <a href="#"><img src="image/ytb.png" alt="YouTube"></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Liên hệ</h4>
+        <p>📍 123 Đường ABC, Quận 1, TP.HCM</p>
+        <p>📞 1900 123456</p>
+        <p>✉️ info@cinemasghl.vn</p>
+        <p>🌐 www.cinemashgl.vn</p>
+      </div>
+      <div class="footer-section">
+        <h4>Giờ mở cửa</h4>
+        <p>Thứ 2 - Thứ 6: 8:00 - 23:00</p>
+        <p>Thứ 7: 8:00 - 24:00</p>
+        <p>Chủ nhật: 8:00 - 22:00</p>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2025 Cinema SGHL. Bản quyền thuộc về Cinema SGHL.
+    </div>
+  </footer>
+  <script>
+    // Toggle dropdown user
+    function toggleUserDropdown() {
+      const dropdown = document.getElementById('dropdownUser');
+      dropdown.classList.toggle('show');
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function handler(e) {
+        if (!e.target.closest('#userMenu')) {
+          dropdown.classList.remove('show');
+          document.removeEventListener('click', handler);
+        }
+      });
+    }
+
+    // Check login status (simulated)
+    function checkLoginStatus() {
+      // In a real app, you would check localStorage or make an API call
+      const isLoggedIn = true; // Simulated logged in status
+      
+      if (!isLoggedIn) {
+        window.location.href = "login.html";
+      }
+    }
+
+    // Logout function
+    function logout() {
+      // In a real app, you would clear the session/localStorage
+      // and possibly make an API call to invalidate the session
+      window.location.href = "login.html";
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      checkLoginStatus();
+      
+      // Attach logout event
+      document.querySelector('.logout-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        logout();
+      });
+    });
+  </script>
+</body>
+</html>

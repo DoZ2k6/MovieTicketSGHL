@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quên mật khẩu</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      min-height: 100vh;
+    }
+    .background-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+    }
+
+    .background-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .forgot-container {
+      margin: auto;
+      background: #111;
+      padding: 40px 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 2px 16px #0008;
+    }
+    .forgot-container h2 {
+      color: #e50914;
+      margin-bottom: 16px;
+    }
+    .forgot-container input {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      background: #222;
+      color: #fff;
+    }
+    .btn-forgot {
+      background-color: #e50914;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 14px;
+      margin-top: 10px;
+      border-radius: 6px;
+      width: 100%;
+    }
+    .btn-forgot:hover {
+      background-color: #b1060f;
+    }
+    .back-login {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      color: #bbb;
+      text-decoration: none;
+    }
+    .back-login:hover {
+      color: #e50914;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-image">
+    <img src="image/cinema1.jpg" alt="Cinema Background">
+  </div>
+  <div class="forgot-container">
+    <h2>Quên mật khẩu</h2>
+    <p>Nhập email đã đăng ký để lấy lại mật khẩu.</p>
+    <input type="email" id="forgotEmail" placeholder="Email" required>
+    <button class="btn-forgot" onclick="forgotPassword()">Gửi yêu cầu</button>
+    <a href="login.html" class="back-login">Quay lại đăng nhập</a>
+  </div>
+  <script>
+    function forgotPassword() {
+      const email = document.getElementById('forgotEmail').value.trim();
+      if (!email) {
+        alert("Vui lòng nhập email!");
+        return;
+      }
+      // Kiểm tra email có tồn tại trong localStorage không (demo)
+      if (localStorage.getItem('user_' + email)) {
+        alert("✅ Mật khẩu của bạn là: " + JSON.parse(localStorage.getItem('user_' + email)).password);
+      } else {
+        alert("❌ Email này chưa được đăng ký!");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Danh sách phim - MovieTicketSGHL</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary-color: #e50914;
+      --primary-dark: #b1060f;
+      --dark-bg: #222;
+      --darker-bg: #111;
+      --text-light: #fff;
+      --text-gray: #bbb;
+      --light-bg: #f5f5f5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: var(--light-bg);
+      color: #333;
+    }
+    body {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+      /* Header Styles */
+    header {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      transition: var(--transition);
+    }
+
+    header.scrolled {
+      padding: 10px 0;
+      background-color: rgba(23, 23, 23, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-right: 32px;
+    }
+
+    .logo img {
+      height: 60px;
+      transition: transform 0.3s;
+    }
+
+    .logo:hover img {
+      transform: scale(1.05);
+    }
+
+    nav {
+      flex: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 0;
+      position: relative;
+      transition: var(--transition);
+      display: inline-block;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+
+    /* Movie Grid Styles */
+    .movie-section {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: var(--dark-bg);
+    }
+
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+      align-items: stretch;
+    }
+
+    /* Movie Card - Đã chỉnh sửa để nút đồng đều */
+    .movie-card {
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .movie-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .movie-poster {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+    }
+
+    .movie-info {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .movie-info h4 {
+      margin: 0 0 10px 0;
+      font-size: 1.2rem;
+      color: var(--dark-bg);
+    }
+
+    .movie-info p {
+      margin: 6px 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .movie-info strong {
+      color: #333;
+    }
+    .movie-card {
+  /* ... giữ nguyên các thuộc tính khác ... */
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.movie-card.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+    /* Nút Xem chi tiết - Đã chỉnh sửa */
+    .btn-detail {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      margin-top: auto;
+      min-height: 40px;
+      transition: background-color 0.3s;
+    }
+
+    .btn-detail:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn-detail:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+        .btn-detail {
+      /* ... giữ nguyên các thuộc tính khác ... */
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .btn-detail::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary-dark);
+      z-index: -1;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s ease;
+    }
+
+    .btn-detail:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Upcoming Movies */
+    .upcoming-movies {
+      background-color: #f0f0f0;
+      padding: 40px 20px;
+    }
+
+    /* Footer Styles */
+    footer {
+      background: var(--darker-bg);
+      color: var(--text-light);
+      padding-top: 60px;
+      margin-top: 40px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      padding: 0 20px;
+    }
+
+    .footer-logo img {
+      height: 40px;
+      margin-bottom: 15px;
+    }
+
+    .footer-logo h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.3rem;
+    }
+
+    .footer-logo p {
+      color: var(--text-gray);
+      margin-bottom: 15px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .copyright {
+      text-align: center;
+      color: var(--text-gray);
+      margin-top: 60px;
+      padding: 20px 0;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  .footer-section h4 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-section h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--primary-color);
+    }
+
+    .footer-section p {
+      margin-bottom: 10px;
+      color: var(--text-gray);
+    }
+
+    .footer-section a {
+      color: var(--text-gray);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-section a:hover {
+      color: var(--primary-color);
+    }
+     .newsletter-form {
+      display: flex;
+      margin-top: 20px;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 30px 0 0 30px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-light);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .newsletter-input:focus {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .newsletter-btn {
+      width: 50px;
+      border: none;
+      border-radius: 0 30px 30px 0;
+      background: var(--primary-color);
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1.2rem;
+    }
+
+    .newsletter-btn:hover {
+      background: var(--primary-dark);
+    }
+    /* Floating Elements */
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .movie-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+/* User Menu */
+    .user-menu {
+      position: relative;
+      margin-left: 32px;
+    }
+
+    .user-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      background: #eee;
+      color: #222;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .user-name {
+      margin-left: 8px;
+    }
+
+    .dropdown-user {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 44px;
+      background: #333;
+      color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+      min-width: 260px;
+      z-index: 10;
+      padding: 18px;
+    }
+
+    .dropdown-user.show {
+      display: block;
+    }
+
+    .user-display-name {
+      font-weight: bold;
+      color: #00bfff;
+      font-size: 1.1rem;
+    }
+
+    .user-email {
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+
+    .dropdown-divider {
+      border-top: 1px solid #444;
+      margin: 10px 0;
+    }
+
+    .dropdown-link {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 0;
+      transition: color 0.3s;
+    }
+
+    .dropdown-link:hover {
+      color: var(--primary-color);
+    }
+
+    .logout-link {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      color: #ff5252;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .animate-on-scroll {
+      opacity: 0;
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .animate-on-scroll.animated {
+      opacity: 1;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <img src="image/logo SGHL.jpg" alt="SGHL Logo">
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Trang chủ</a></li>
+          <li><a href="movies.html" style="color: var(--primary-color);">Phim</a></li>
+          <li><a href="voucher.html">Ưu đãi</a></li>
+          
+          <li><a href="contact.html">Liên hệ</a></li>
+          <li class="user-menu" id="userMenu">
+            <div class="user-toggle" onclick="toggleUserDropdown()">
+              <div class="user-avatar">K</div>
+              <span class="user-name">Lưu Gia K</span>
+            </div>
+            <div id="dropdownUser" class="dropdown-user">
+              <div class="user-display-name">Lưu Gia K</div>
+              <div class="user-email">LuuGiaK@gmail.com</div>
+              <div class="dropdown-divider"></div>
+              <a href="tickets.html" class="dropdown-link">Vé của tôi</a>
+              <div class="dropdown-divider"></div>
+              <a href="login.html" class="logout-link">Đăng xuất &rarr;</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="movie-section">
+      <h2 class="section-title">🎥 Danh sách phim đang chiếu</h2>
+      <div class="movie-grid">
+        <!-- Phim 1 -->
+        <div class="movie-card">
+          <img src="image/jurrassic.jpg" alt="Thế Giới Khủng Long: Tái Sinh" class="movie-poster" loading="lazy">
+          <div class="movie-info">
+            <h4>Thế Giới Khủng Long: Tái Sinh</h4>
+            <p><strong>Thời lượng:</strong> 134 phút</p>
+            <p><strong>Thể loại:</strong> Hành Động, Phiêu Lưu, Thần thoại</p>
+            <p><strong>Ngôn ngữ:</strong> Tiếng Anh (Phụ đề Tiếng Việt)</p>
+            <p><strong>Rated:</strong> T13 - Phim dành cho người từ 13 tuổi</p>
+            <a href="moviesdetail-jurassic.html" class="btn-detail">Xem chi tiết</a>
+          </div>
+        </div>
+
+        <!-- Phim 2 -->
+        <div class="movie-card">
+          <img src="image/utlan.jpg" alt="Út Lan: Oán Linh Giữ Của" class="movie-poster" loading="lazy">
+          <div class="movie-info">
+            <h4>Út Lan: Oán Linh Giữ Của</h4>
+            <p><strong>Thời lượng:</strong> 111 phút</p>
+            <p><strong>Thể loại:</strong> Kinh Dị</p>
+            <p><strong>Ngôn ngữ:</strong> Tiếng Việt (Phụ đề tiếng Anh)</p>
+            <p><strong>Rated:</strong> T18 - Trên 18 tuổi</p>
+            <a href="moviesdetail-utlan.html" class="btn-detail">Xem chi tiết</a>
+          </div>
+        </div>
+
+        <!-- Phim 3 -->
+        <div class="movie-card">
+          <img src="image/f1.jpg" alt="F1 - Brad Pitt" class="movie-poster" loading="lazy">
+          <div class="movie-info">
+            <h4>F1®</h4>
+            <p><strong>Thời lượng:</strong> 156 phút</p>
+            <p><strong>Thể loại:</strong> Hành động, Tâm lý</p>
+            <p><strong>Ngôn ngữ:</strong> Tiếng Anh (Phụ đề Việt & Hàn)</p>
+            <p><strong>Rated:</strong> T16 - Trên 16 tuổi</p>
+            <a href="moviesdetail-F1.html" class="btn-detail">Xem chi tiết</a>
+          </div>
+        </div>
+
+        <!-- Phim 4 -->
+        <div class="movie-card">
+          <img src="image/bikiepluyenrong.jpg" alt="Bí Kíp Luyện Rồng" class="movie-poster" loading="lazy">
+          <div class="movie-info">
+            <h4>BÍ KÍP LUYỆN RỒNG</h4>
+            <p><strong>Thời lượng:</strong> 126 phút</p>
+            <p><strong>Thể loại:</strong> Hài, Hành động, Phiêu lưu, Giả tưởng</p>
+            <p><strong>Ngôn ngữ:</strong> Tiếng Anh (Phụ đề + Lồng tiếng Việt)</p>
+            <p><strong>Rated:</strong> K - Dưới 13 tuổi xem cùng người giám hộ</p>
+            <a href="moviesdetail-bklr.html" class="btn-detail">Xem chi tiết</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="upcoming-movies">
+      <div class="movie-section">
+        <h2 class="section-title">📅 Phim sắp chiếu</h2>
+        <div class="movie-grid">
+          <!-- Phim sắp chiếu 1 -->
+          <div class="movie-card">
+            <img src="image/gatuthan.jpg" alt="GA TỬ THẦN" class="movie-poster" loading="lazy">
+            <div class="movie-info">
+              <h4>GA TỬ THẦN</h4>
+              <p><strong>Khởi chiếu:</strong> 11/07/2025</p>
+              <p><strong>Thời lượng:</strong> 93 phút</p>
+              <p><strong>Thể loại:</strong> Bí ẩn, Kinh dị</p>
+              <p><strong>Ngôn ngữ:</strong> Tiếng Hàn (Phụ đề Việt & Anh)</p>
+              <p><strong>Rated:</strong> T16 - Trên 16 tuổi</p>
+              <button class="btn-detail" disabled>Chưa mở đặt vé</button>
+            </div>
+          </div>
+
+          <!-- Phim sắp chiếu 2 -->
+          <div class="movie-card">
+            <img src="image/superman.jpg" alt="SUPERMAN" class="movie-poster" loading="lazy">
+            <div class="movie-info">
+              <h4>SUPERMAN</h4>
+              <p><strong>Khởi chiếu:</strong> 11/07/2025</p>
+              <p><strong>Thời lượng:</strong> 130 phút</p>
+              <p><strong>Thể loại:</strong> Hành động, Phiêu lưu</p>
+              <p><strong>Ngôn ngữ:</strong> Tiếng Anh (Phụ đề Việt & Hàn)</p>
+              <p><strong>Rated:</strong> T13 - Trên 13 tuổi</p>
+              <button class="btn-detail" disabled>Chưa mở đặt vé</button>
+            </div>
+          </div>
+
+          <!-- Phim sắp chiếu 3 -->
+          <div class="movie-card">
+            <img src="image/conan.jpg" alt="Conan: Dư Ảnh Của Độc Nhãn" class="movie-poster" loading="lazy">
+            <div class="movie-info">
+              <h4>CONAN: Dư Ảnh Của Độc Nhãn</h4>
+              <p><strong>Khởi chiếu:</strong> 25/07/2025</p>
+              <p><strong>Thời lượng:</strong> 110 phút</p>
+              <p><strong>Thể loại:</strong> Bí ẩn, Hoạt hình, Tình cảm</p>
+              <p><strong>Ngôn ngữ:</strong> Tiếng Nhật (Phụ đề + Lồng tiếng Việt)</p>
+              <p><strong>Rated:</strong> K - Mọi độ tuổi</p>
+              <button class="btn-detail" disabled>Chưa mở đặt vé</button>
+            </div>
+          </div>
+
+          <!-- Phim sắp chiếu 4 -->
+          <div class="movie-card">
+            <img src="image/FantasticFour.jpg" alt="FANTASTIC FOUR: FIRST STEPS" class="movie-poster" loading="lazy">
+            <div class="movie-info">
+              <h4>FANTASTIC FOUR: FIRST STEPS</h4>
+              <p><strong>Khởi chiếu:</strong> 25/07/2025</p>
+              <p><strong>Thời lượng:</strong> 125 phút</p>
+              <p><strong>Thể loại:</strong> Hành động, Khoa học viễn tưởng</p>
+              <p><strong>Ngôn ngữ:</strong> Tiếng Anh (Phụ đề Tiếng Việt)</p>
+              <p><strong>Rated:</strong> Chưa xác định</p>
+              <button class="btn-detail" disabled>Chưa mở đặt vé</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+   <footer>
+    <div class="footer-container">
+      <div class="footer-section footer-logo">
+        <img src="image/logo SGHL.jpg" alt="Cinema SGHL">
+        <h3>Cinema SGHL</h3>
+        <p>Hệ thống rạp chiếu phim hiện đại với chất lượng hàng đầu Việt Nam.</p>
+        <div class="social-links">
+          <a href="#"><img src="image/fb.png" alt="Facebook"></a>
+          <a href="#"><img src="image/tw.png" alt="Twitter"></a>
+          <a href="#"><img src="image/ig.png" alt="Instagram"></a>
+          <a href="#"><img src="image/ytb.png" alt="YouTube"></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Liên hệ</h4>
+        <p><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận 1, TP.HCM</p>
+        <p><i class="fas fa-phone"></i> 1900 123456</p>
+        <p><i class="fas fa-envelope"></i> info@cinemasghl.vn</p>
+        <p><i class="fas fa-globe"></i> www.cinemashgl.vn</p>
+      </div>
+      <div class="footer-section">
+        <h4>Giờ mở cửa</h4>
+        <p><i class="far fa-clock"></i> Thứ 2 - Thứ 6: 8:00 - 23:00</p>
+        <p><i class="far fa-clock"></i> Thứ 7: 8:00 - 24:00</p>
+        <p><i class="far fa-clock"></i> Chủ nhật: 8:00 - 22:00</p>
+      </div>
+      <div class="footer-section">
+        <h4>Đăng ký nhận tin</h4>
+        <p>Nhận thông tin khuyến mãi và phim mới nhất từ chúng tôi.</p>
+        <form class="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="Email của bạn" required>
+          <button type="submit" class="newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2025 Cinema SGHL. Bản quyền thuộc về Cinema SGHL.
+    </div>
+  </footer>
+  <script>
+    // Toggle dropdown user
+    function toggleUserDropdown() {
+      const dropdown = document.getElementById('dropdownUser');
+      dropdown.classList.toggle('show');
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function handler(e) {
+        if (!e.target.closest('#userMenu')) {
+          dropdown.classList.remove('show');
+          document.removeEventListener('click', handler);
+        }
+      });
+    }
+
+    // Check login status (simulated)
+    function checkLoginStatus() {
+      // In a real app, you would check localStorage or make an API call
+      const isLoggedIn = true; // Simulated logged in status
+      
+      if (!isLoggedIn) {
+        window.location.href = "login.html";
+      }
+    }
+
+    // Logout function
+    function logout() {
+      // In a real app, you would clear the session/localStorage
+      // and possibly make an API call to invalidate the session
+      window.location.href = "login.html";
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      checkLoginStatus();
+      
+      // Attach logout event
+      document.querySelector('.logout-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        logout();
+      });
+    });
+     // Hiệu ứng khi cuộn trang
+  document.addEventListener('DOMContentLoaded', function() {
+    // Kiểm tra các phần tử khi trang load
+    checkElements();
+    
+    // Thêm sự kiện scroll
+    window.addEventListener('scroll', checkElements);
+    
+    function checkElements() {
+      const elements = document.querySelectorAll('.animate-on-scroll');
+      const windowHeight = window.innerHeight;
+      
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        
+        if (elementPosition < windowHeight - 100) {
+          element.classList.add('animated');
+        }
+      });
+    }
+    
+    // Hiệu ứng cho các thẻ phim
+    const movieCards = document.querySelectorAll('.movie-card');
+    movieCards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('show');
+      }, index * 100);
+    });
+    
+    // Hiệu ứng cho header khi scroll
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  });
+  </script>
+</body>
+</html>

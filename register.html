@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng ký</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      min-height: 100vh;
+    }
+    .register-left {
+      width: 50%;
+      max-height: 100vh; 
+      position: relative;
+      overflow: hidden;
+    }
+    .register-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .register-right {
+      flex: 1;
+      background-color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .register-box {
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .register-box h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: red;
+    }
+
+    .register-box p {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+
+    .register-box input {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      background: #222;
+      color: #fff;
+    }
+
+    .btn-register {
+      background-color: red;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 14px;
+      margin-top: 10px;
+      border-radius: 6px;
+      width: 100%;
+    }
+
+    .btn-register:hover {
+      background-color: red;
+    }
+
+    .register-box .login-link {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #bbb;
+      text-align: center;
+    }
+
+    .register-box .login-link a {
+      color: red;
+      text-decoration: none;
+    }
+
+    .register-box .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <div class="register-left">
+    <img src="image/cinema.jpg" alt="Rạp phim" class="register-image">
+  </div>
+
+  <div class="register-right">
+    <form class="register-box">
+      <h2>Tạo tài khoản</h2>
+      <p>Đăng ký để tiếp tục đặt vé tại SaiGonHoaLe 🎫</p>
+
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Mật khẩu" required>
+      <input type="password" placeholder="Nhập lại mật khẩu" required>
+      <input type="tel" id="phone" placeholder="Số điện thoại" required>
+
+      <button type="submit" class="btn-register">Đăng ký</button>
+
+      <div class="login-link">
+        Đã có tài khoản? <a href="login.html">Đăng nhập ngay</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.querySelector('.register-box').addEventListener('submit', function (e) {
+      const email = document.querySelector('input[type="email"]').value.trim();
+      const password = document.querySelectorAll('input[type="password"]')[0].value;
+      const repassword = document.querySelectorAll('input[type="password"]')[1].value;
+
+      if (password !== repassword) {
+        e.preventDefault();
+        alert("❌ Mật khẩu nhập lại không khớp.");
+        return;
+      }
+      if (localStorage.getItem('user_' + email)) {
+        e.preventDefault();
+        alert("⚠️ Email này đã được đăng ký!");
+        return;
+      }
+      localStorage.setItem('user_' + email, JSON.stringify({ password: password }));
+      alert("✅ Đăng ký thành công! Vui lòng đăng nhập.");
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
